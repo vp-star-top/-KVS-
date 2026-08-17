@@ -56,12 +56,6 @@ const songs = [
     {
         title: "Dil Ne Dil Ko Pukara",
         artist: "KVS",
-        file: "songs/(hindimp3download.net)-dil-ne-dil-ko-pukara(1).mp3"
-    },
-
-    {
-        title: "Dil Ne Dil Ko Pukara",
-        artist: "KVS",
         file: "songs/(hindimp3download.net)-dil-ne-dil-ko-pukara.mp3"
     }
 ];
