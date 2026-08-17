@@ -1,9 +1,11 @@
 // ========================================
 // KVS — Kishore Vibe Studio
-// 6 SONG MUSIC PLAYER
+// 6 SONG MUSIC PLAYER + SEARCH
 // ========================================
 
+
 const songs = [
+
     {
         title: "Chal Akela",
         artist: "Sambandh",
@@ -39,6 +41,7 @@ const songs = [
         artist: "KVS",
         file: "songs/Chithi Na Koi Sandesh(1).mp3"
     }
+
 ];
 
 
@@ -51,26 +54,53 @@ let isPlaying = false;
 
 const audio = new Audio();
 
-const songList = document.getElementById("song-list");
-const playerTitle = document.getElementById("player-title");
-const playerArtist = document.getElementById("player-artist");
 
-const playBtn = document.getElementById("play-btn");
-const playerPlay = document.getElementById("player-play");
+// ========================================
+// HTML ELEMENTS
+// ========================================
 
-const nextBtn = document.getElementById("next-btn");
-const previousBtn = document.getElementById("previous-btn");
+const songList =
+    document.getElementById("song-list");
 
-const playerNext = document.getElementById("player-next");
-const playerPrevious = document.getElementById("player-previous");
+const songSearch =
+    document.getElementById("song-search");
 
-const progress = document.getElementById("progress");
-const currentTime = document.getElementById("current-time");
-const duration = document.getElementById("duration");
+const playerTitle =
+    document.getElementById("player-title");
+
+const playerArtist =
+    document.getElementById("player-artist");
+
+const playBtn =
+    document.getElementById("play-btn");
+
+const playerPlay =
+    document.getElementById("player-play");
+
+const nextBtn =
+    document.getElementById("next-btn");
+
+const previousBtn =
+    document.getElementById("previous-btn");
+
+const playerNext =
+    document.getElementById("player-next");
+
+const playerPrevious =
+    document.getElementById("player-previous");
+
+const progress =
+    document.getElementById("progress");
+
+const currentTime =
+    document.getElementById("current-time");
+
+const duration =
+    document.getElementById("duration");
 
 
 // ========================================
-// TIME
+// TIME FORMAT
 // ========================================
 
 function formatTime(seconds) {
@@ -79,8 +109,11 @@ function formatTime(seconds) {
         return "0:00";
     }
 
-    const minutes = Math.floor(seconds / 60);
-    const secondsLeft = Math.floor(seconds % 60);
+    const minutes =
+        Math.floor(seconds / 60);
+
+    const secondsLeft =
+        Math.floor(seconds % 60);
 
     return `${minutes}:${secondsLeft
         .toString()
@@ -89,12 +122,13 @@ function formatTime(seconds) {
 
 
 // ========================================
-// BUTTON UPDATE
+// UPDATE PLAY BUTTONS
 // ========================================
 
 function updateButtons() {
 
-    const icon = isPlaying ? "❚❚" : "▶";
+    const icon =
+        isPlaying ? "❚❚" : "▶";
 
     if (playBtn) {
         playBtn.textContent = icon;
@@ -112,53 +146,72 @@ function updateButtons() {
 
 function loadSong(index) {
 
-    if (!songs[index]) return;
+    if (!songs[index]) {
+        return;
+    }
 
     currentSong = index;
 
-    const song = songs[currentSong];
+    const song =
+        songs[currentSong];
 
     audio.src = song.file;
+
     audio.load();
 
+
     if (playerTitle) {
-        playerTitle.textContent = song.title;
+        playerTitle.textContent =
+            song.title;
     }
+
 
     if (playerArtist) {
-        playerArtist.textContent = song.artist;
+        playerArtist.textContent =
+            song.artist;
     }
+
 
     if (currentTime) {
-        currentTime.textContent = "0:00";
+        currentTime.textContent =
+            "0:00";
     }
 
+
     if (duration) {
-        duration.textContent = "0:00";
+        duration.textContent =
+            "0:00";
     }
+
 
     if (progress) {
         progress.value = 0;
     }
 
+
     isPlaying = false;
 
     updateButtons();
 
-    console.log("Loaded:", song.title);
+    console.log(
+        "Loaded:",
+        song.title
+    );
 }
 
 
 // ========================================
-// PLAY
+// PLAY SONG
 // ========================================
 
 function playSong() {
 
     audio.play()
+
         .then(() => {
 
             isPlaying = true;
+
             updateButtons();
 
             console.log(
@@ -167,6 +220,7 @@ function playSong() {
             );
 
         })
+
         .catch(error => {
 
             console.error(
@@ -179,7 +233,7 @@ function playSong() {
 
 
 // ========================================
-// PAUSE
+// PAUSE SONG
 // ========================================
 
 function pauseSong() {
@@ -199,32 +253,42 @@ function pauseSong() {
 function togglePlay() {
 
     if (isPlaying) {
+
         pauseSong();
+
     } else {
+
         playSong();
+
     }
 }
 
 
 // ========================================
-// NEXT
+// NEXT SONG
 // ========================================
 
 function nextSong() {
 
     currentSong++;
 
-    if (currentSong >= songs.length) {
+    if (
+        currentSong >=
+        songs.length
+    ) {
+
         currentSong = 0;
+
     }
 
     loadSong(currentSong);
+
     playSong();
 }
 
 
 // ========================================
-// PREVIOUS
+// PREVIOUS SONG
 // ========================================
 
 function previousSong() {
@@ -232,35 +296,55 @@ function previousSong() {
     currentSong--;
 
     if (currentSong < 0) {
-        currentSong = songs.length - 1;
+
+        currentSong =
+            songs.length - 1;
+
     }
 
     loadSong(currentSong);
+
     playSong();
 }
 
 
 // ========================================
-// PROGRESS
+// UPDATE PROGRESS
 // ========================================
 
 function updateProgress() {
 
-    if (!audio.duration) return;
+    if (!audio.duration) {
+        return;
+    }
+
 
     if (progress) {
+
         progress.value =
-            (audio.currentTime / audio.duration) * 100;
+            (audio.currentTime /
+            audio.duration) * 100;
+
     }
+
 
     if (currentTime) {
+
         currentTime.textContent =
-            formatTime(audio.currentTime);
+            formatTime(
+                audio.currentTime
+            );
+
     }
 
+
     if (duration) {
+
         duration.textContent =
-            formatTime(audio.duration);
+            formatTime(
+                audio.duration
+            );
+
     }
 }
 
@@ -271,84 +355,215 @@ function updateProgress() {
 
 function seekSong() {
 
-    if (!audio.duration) return;
+    if (!audio.duration) {
+        return;
+    }
 
     audio.currentTime =
-        (progress.value / 100) * audio.duration;
+        (progress.value / 100) *
+        audio.duration;
 }
 
 
 // ========================================
-// SONG LIST
+// CREATE SONG LIST
+// WITH SEARCH
 // ========================================
 
-function createSongList() {
+function createSongList(searchText = "") {
 
-    if (!songList) return;
+    if (!songList) {
+        return;
+    }
+
 
     songList.innerHTML = "";
 
-    songs.forEach((song, index) => {
 
-        const item = document.createElement("div");
+    const search =
+        searchText
+            .toLowerCase()
+            .trim();
 
-        item.className = "song-item";
 
-        item.innerHTML = `
-            <div class="song-details">
+    const filteredSongs =
+        songs
+            .map((song, index) => ({
+                song: song,
+                index: index
+            }))
 
-                <strong>
-                    ${String(index + 1).padStart(2, "0")}
-                </strong>
+            .filter(({ song }) => {
 
-                <strong>
-                    ${song.title}
-                </strong>
+                return (
 
-                <span>
-                    ${song.artist}
-                </span>
+                    song.title
+                        .toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    song.artist
+                        .toLowerCase()
+                        .includes(search)
+
+                );
+
+            });
+
+
+    // ========================================
+    // NO RESULTS
+    // ========================================
+
+    if (
+        filteredSongs.length === 0
+    ) {
+
+        songList.innerHTML = `
+
+            <div class="empty-message">
+
+                No songs found.
 
             </div>
 
-            <button type="button">
-                ▶ Play
-            </button>
         `;
 
-        const button = item.querySelector("button");
+        return;
+    }
 
-        button.addEventListener("click", () => {
 
-            loadSong(index);
-            playSong();
+    // ========================================
+    // DISPLAY SONGS
+    // ========================================
 
-        });
+    filteredSongs.forEach(
+        ({ song, index }) => {
 
-        songList.appendChild(item);
+            const item =
+                document.createElement(
+                    "div"
+                );
 
-    });
+
+            item.className =
+                "song-item";
+
+
+            item.innerHTML = `
+
+                <div class="song-details">
+
+                    <strong>
+                        ${String(index + 1)
+                            .padStart(2, "0")}
+                    </strong>
+
+
+                    <strong>
+                        ${song.title}
+                    </strong>
+
+
+                    <span>
+                        ${song.artist}
+                    </span>
+
+                </div>
+
+
+                <button
+                    type="button"
+                >
+                    ▶ Play
+                </button>
+
+            `;
+
+
+            const button =
+                item.querySelector(
+                    "button"
+                );
+
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    loadSong(index);
+
+                    playSong();
+
+                }
+            );
+
+
+            songList.appendChild(
+                item
+            );
+
+        }
+    );
 }
+
+
+// ========================================
+// SEARCH EVENT
+// ========================================
+
+songSearch?.addEventListener(
+    "input",
+    () => {
+
+        createSongList(
+            songSearch.value
+        );
+
+    }
+);
 
 
 // ========================================
 // BUTTON EVENTS
 // ========================================
 
-playBtn?.addEventListener("click", togglePlay);
+playBtn?.addEventListener(
+    "click",
+    togglePlay
+);
 
-playerPlay?.addEventListener("click", togglePlay);
 
-nextBtn?.addEventListener("click", nextSong);
+playerPlay?.addEventListener(
+    "click",
+    togglePlay
+);
 
-playerNext?.addEventListener("click", nextSong);
 
-previousBtn?.addEventListener("click", previousSong);
+nextBtn?.addEventListener(
+    "click",
+    nextSong
+);
+
+
+playerNext?.addEventListener(
+    "click",
+    nextSong
+);
+
+
+previousBtn?.addEventListener(
+    "click",
+    previousSong
+);
+
 
 playerPrevious?.addEventListener(
     "click",
     previousSong
 );
+
 
 progress?.addEventListener(
     "input",
@@ -365,15 +580,18 @@ audio.addEventListener(
     updateProgress
 );
 
+
 audio.addEventListener(
     "loadedmetadata",
     updateProgress
 );
 
+
 audio.addEventListener(
     "ended",
     nextSong
 );
+
 
 audio.addEventListener(
     "error",
@@ -389,13 +607,16 @@ audio.addEventListener(
 
 
 // ========================================
-// START
+// START KVS
 // ========================================
 
 loadSong(0);
 
 createSongList();
 
+
 console.log(
-    "KVS loaded — 6 songs"
+    "KVS loaded —",
+    songs.length,
+    "unique songs"
 );
