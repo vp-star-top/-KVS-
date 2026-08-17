@@ -2,7 +2,7 @@ const songs = [
     {
         title: "Badan Pe Sitare Lapete Huye",
         artist: "KVS",
-        file: "songs/(hindimp3download.net)-badan-pe-sitare-lapete-hue.mp3"
+        file: "songs/(hindimp3download.net)-badan-pe-sitare-lapete-hue(1).mp3"
     }
 ];
 
