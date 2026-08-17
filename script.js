@@ -1,134 +1,130 @@
+// ========================================
+// KVS — Kishore Vibe Studio
+// Music Player
+// ========================================
+
 const songs = [
+
     {
-        title: "Awaara Hoon",
-        artist: "Raj Kapoor",
-        file: "songs/Awaara Hoon - Awara-Raj KapoorRaag.Me(1).mp3"
+        title: "Chal Akela",
+        artist: "Sambandh",
+        file: "songs/Chal Akela - Sambandh-(Mr-Jatt.com).mp3"
     },
+
     {
-        title: "Aye Mere Humsafar",
-        artist: "KVS",
-        file: "songs/Aye Mere Humsafar - (BossMp3.Me)(1).mp3"
+        title: "Chale Jana Nahin",
+        artist: "Lata Mangeshkar",
+        file: "songs/Chale Jana Nahin-Lata MangeshkarRaag.Me(1).mp3"
     },
+
     {
-        title: "Aye Watan Tere Liye",
+        title: "Chand Chupa Badal Mein",
         artist: "KVS",
-        file: "songs/Aye Watan Tere Liye-(Mr-Jatt.com)(1).mp3"
+        file: "songs/Chand Chupa Badal Mein (Hum Dil De Chuke Sanam)(1).mp3"
     },
+
     {
-        title: "Baazigar O Baazigar",
-        artist: "KVS",
-        file: "songs/Baazigar O Baazigar - Baazigar (1993)__Bollywood H - 128K MP3(1).mp3"
+        title: "Chand Aahen Bharega",
+        artist: "Mukesh",
+        file: "songs/Chand_Aahen_Bharega_(Phool_Bane_Angare)-Mukesh-www.Mp3Mad.Com(1).mp3"
     },
+
     {
-        title: "Benaam Sa Ye Dard",
-        artist: "KVS",
-        file: "songs/Benaam_Sa_Ye_Dard_(www.Mp3Skulls.info)(1).mp3"
+        title: "Chhoo Lene Do Nazuk Honthon Ko",
+        artist: "Mohammad Rafi",
+        file: "songs/Chhoo Lene Do Nazuk Honthon Ko - Mohammad Rafi -(M4A_128K) (1).m4a"
     },
+
     {
-        title: "Aur Tum Aye",
+        title: "Chithi Na Koi Sandesh",
         artist: "KVS",
-        file: "songs/aur tum aye(1).mp3"
-    },
-    {
-        title: "Badan Pe Sitare Lapete Huye",
-        artist: "KVS",
-        file: "songs/(hindimp3download.net)-badan-pe-sitare-lapete-hue.mp3"
-    },
-    {
-        title: "Badi Mastani Hai Meri Mehbooba",
-        artist: "KVS",
-        file: "songs/(hindimp3download.net)-badi-mastani-hai-meri-mehbooba.mp3"
-    },
-    {
-        title: "Baharo Phool Barsao",
-        artist: "KVS",
-        file: "songs/(hindimp3download.net)-baharo-phool-barsao.mp3"
-    },
-    {
-        title: "Dil Ne Dil Ko Pukara",
-        artist: "KVS",
-        file: "songs/(hindimp3download.net)-dil-ne-dil-ko-pukara.mp3"
+        file: "songs/Chithi Na Koi Sandesh(1).mp3"
     }
+
 ];
+
+
+// ========================================
+// PLAYER
+// ========================================
 
 let currentSong = 0;
 let isPlaying = false;
 
 const audio = new Audio();
 
-const songList = document.getElementById("song-list");
-const playerTitle = document.getElementById("player-title");
-const playerArtist = document.getElementById("player-artist");
 
-const playBtn = document.getElementById("play-btn");
-const playerPlay = document.getElementById("player-play");
+// ========================================
+// HTML ELEMENTS
+// ========================================
 
-const nextBtn = document.getElementById("next-btn");
-const previousBtn = document.getElementById("previous-btn");
+const songList =
+    document.getElementById("song-list");
 
-const playerNext = document.getElementById("player-next");
-const playerPrevious = document.getElementById("player-previous");
+const playerTitle =
+    document.getElementById("player-title");
 
-const progress = document.getElementById("progress");
-const currentTime = document.getElementById("current-time");
-const duration = document.getElementById("duration");
+const playerArtist =
+    document.getElementById("player-artist");
 
-function formatTime(time) {
-    if (!Number.isFinite(time)) {
+const playBtn =
+    document.getElementById("play-btn");
+
+const playerPlay =
+    document.getElementById("player-play");
+
+const nextBtn =
+    document.getElementById("next-btn");
+
+const previousBtn =
+    document.getElementById("previous-btn");
+
+const playerNext =
+    document.getElementById("player-next");
+
+const playerPrevious =
+    document.getElementById("player-previous");
+
+const progress =
+    document.getElementById("progress");
+
+const currentTime =
+    document.getElementById("current-time");
+
+const duration =
+    document.getElementById("duration");
+
+
+// ========================================
+// FORMAT TIME
+// ========================================
+
+function formatTime(seconds) {
+
+    if (!Number.isFinite(seconds)) {
         return "0:00";
     }
 
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
+    const minutes =
+        Math.floor(seconds / 60);
 
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    const remainingSeconds =
+        Math.floor(seconds % 60);
+
+    return `${minutes}:${remainingSeconds
+        .toString()
+        .padStart(2, "0")}`;
 }
 
-function loadSong(index) {
-    currentSong = index;
 
-    const song = songs[currentSong];
-
-    audio.src = song.file;
-
-    playerTitle.textContent = song.title;
-    playerArtist.textContent = song.artist;
-
-    currentTime.textContent = "0:00";
-    duration.textContent = "0:00";
-    progress.value = 0;
-
-    isPlaying = false;
-    updateButtons();
-}
-
-function playSong() {
-    audio.play()
-        .then(() => {
-            isPlaying = true;
-            updateButtons();
-        })
-        .catch(error => {
-            console.error("Could not play song:", error);
-        });
-}
-
-function pauseSong() {
-    audio.pause();
-    isPlaying = false;
-    updateButtons();
-}
-
-function togglePlay() {
-    if (isPlaying) {
-        pauseSong();
-    } else {
-        playSong();
-    }
-}
+// ========================================
+// UPDATE BUTTONS
+// ========================================
 
 function updateButtons() {
-    const icon = isPlaying ? "❚❚" : "▶";
+
+    const icon =
+        isPlaying ? "❚❚" : "▶";
 
     if (playBtn) {
         playBtn.textContent = icon;
@@ -139,7 +135,125 @@ function updateButtons() {
     }
 }
 
+
+// ========================================
+// LOAD SONG
+// ========================================
+
+function loadSong(index) {
+
+    if (!songs[index]) {
+        return;
+    }
+
+    currentSong = index;
+
+    const song =
+        songs[currentSong];
+
+    audio.src = song.file;
+
+    audio.load();
+
+    if (playerTitle) {
+        playerTitle.textContent =
+            song.title;
+    }
+
+    if (playerArtist) {
+        playerArtist.textContent =
+            song.artist;
+    }
+
+    if (currentTime) {
+        currentTime.textContent =
+            "0:00";
+    }
+
+    if (duration) {
+        duration.textContent =
+            "0:00";
+    }
+
+    if (progress) {
+        progress.value = 0;
+    }
+
+    isPlaying = false;
+
+    updateButtons();
+
+    console.log(
+        "Loaded:",
+        song.file
+    );
+}
+
+
+// ========================================
+// PLAY SONG
+// ========================================
+
+function playSong() {
+
+    audio.play()
+        .then(() => {
+
+            isPlaying = true;
+
+            updateButtons();
+
+            console.log(
+                "Playing:",
+                songs[currentSong].title
+            );
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Audio could not play:",
+                error
+            );
+
+        });
+}
+
+
+// ========================================
+// PAUSE SONG
+// ========================================
+
+function pauseSong() {
+
+    audio.pause();
+
+    isPlaying = false;
+
+    updateButtons();
+}
+
+
+// ========================================
+// PLAY / PAUSE
+// ========================================
+
+function togglePlay() {
+
+    if (isPlaying) {
+        pauseSong();
+    } else {
+        playSong();
+    }
+}
+
+
+// ========================================
+// NEXT SONG
+// ========================================
+
 function nextSong() {
+
     currentSong++;
 
     if (currentSong >= songs.length) {
@@ -147,86 +261,171 @@ function nextSong() {
     }
 
     loadSong(currentSong);
+
     playSong();
 }
 
+
+// ========================================
+// PREVIOUS SONG
+// ========================================
+
 function previousSong() {
+
     currentSong--;
 
     if (currentSong < 0) {
-        currentSong = songs.length - 1;
+        currentSong =
+            songs.length - 1;
     }
 
     loadSong(currentSong);
+
     playSong();
 }
 
+
+// ========================================
+// UPDATE PROGRESS
+// ========================================
+
 function updateProgress() {
+
     if (!audio.duration) {
         return;
     }
 
-    progress.value =
-        (audio.currentTime / audio.duration) * 100;
+    if (progress) {
+        progress.value =
+            (audio.currentTime /
+            audio.duration) * 100;
+    }
 
-    currentTime.textContent =
-        formatTime(audio.currentTime);
+    if (currentTime) {
+        currentTime.textContent =
+            formatTime(
+                audio.currentTime
+            );
+    }
 
-    duration.textContent =
-        formatTime(audio.duration);
+    if (duration) {
+        duration.textContent =
+            formatTime(
+                audio.duration
+            );
+    }
 }
 
+
+// ========================================
+// SEEK SONG
+// ========================================
+
 function seekSong() {
+
     if (!audio.duration) {
         return;
     }
 
     audio.currentTime =
-        (progress.value / 100) * audio.duration;
+        (progress.value / 100) *
+        audio.duration;
 }
+
+
+// ========================================
+// CREATE SONG LIST
+// ========================================
 
 function createSongList() {
+
+    if (!songList) {
+        return;
+    }
+
     songList.innerHTML = "";
 
-    songs.forEach((song, index) => {
+    songs.forEach(
+        (song, index) => {
 
-        const item = document.createElement("div");
+            const item =
+                document.createElement("div");
 
-        item.className = "song-item";
+            item.className =
+                "song-item";
 
-        item.innerHTML = `
-            <div>
-                <strong>${String(index + 1).padStart(2, "0")}</strong>
-                <strong>${song.title}</strong>
-                <span>${song.artist}</span>
-            </div>
+            item.innerHTML = `
 
-            <button type="button">
-                ▶ Play
-            </button>
-        `;
+                <div class="song-details">
 
-        item.querySelector("button").addEventListener(
-            "click",
-            () => {
-                loadSong(index);
-                playSong();
-            }
-        );
+                    <strong>
+                        ${String(index + 1)
+                            .padStart(2, "0")}
+                    </strong>
 
-        songList.appendChild(item);
-    });
+                    <strong>
+                        ${song.title}
+                    </strong>
+
+                    <span>
+                        ${song.artist}
+                    </span>
+
+                </div>
+
+                <button type="button">
+                    ▶ Play
+                </button>
+
+            `;
+
+            item
+                .querySelector("button")
+                .addEventListener(
+                    "click",
+                    () => {
+
+                        loadSong(index);
+
+                        playSong();
+
+                    }
+                );
+
+            songList.appendChild(item);
+        }
+    );
 }
 
-playBtn?.addEventListener("click", togglePlay);
 
-playerPlay?.addEventListener("click", togglePlay);
+// ========================================
+// BUTTON EVENTS
+// ========================================
 
-nextBtn?.addEventListener("click", nextSong);
+playBtn?.addEventListener(
+    "click",
+    togglePlay
+);
 
-playerNext?.addEventListener("click", nextSong);
+playerPlay?.addEventListener(
+    "click",
+    togglePlay
+);
 
-previousBtn?.addEventListener("click", previousSong);
+nextBtn?.addEventListener(
+    "click",
+    nextSong
+);
+
+playerNext?.addEventListener(
+    "click",
+    nextSong
+);
+
+previousBtn?.addEventListener(
+    "click",
+    previousSong
+);
 
 playerPrevious?.addEventListener(
     "click",
@@ -237,6 +436,11 @@ progress?.addEventListener(
     "input",
     seekSong
 );
+
+
+// ========================================
+// AUDIO EVENTS
+// ========================================
 
 audio.addEventListener(
     "timeupdate",
@@ -256,18 +460,26 @@ audio.addEventListener(
 audio.addEventListener(
     "error",
     () => {
+
         console.error(
-            "Song file could not be loaded:",
+            "FAILED TO LOAD:",
             songs[currentSong].file
         );
+
     }
 );
 
+
+// ========================================
+// START KVS
+// ========================================
+
 loadSong(0);
+
 createSongList();
 
 console.log(
-    "KVS player ready —",
+    "KVS music player loaded:",
     songs.length,
-    "unique songs"
+    "songs"
 );
