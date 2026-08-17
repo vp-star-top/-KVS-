@@ -42,12 +42,6 @@ const songs = [
     },
 
     {
-        title: "Badan Pe Sitare Lapete Huye",
-        artist: "KVS",
-        file: "songs/(hindimp3download.net)-badan-pe-sitare-lapete-hue(1).mp3"
-    },
-
-    {
         title: "Badi Mastani Hai Meri Mehbooba",
         artist: "KVS",
         file: "songs/(hindimp3download.net)-badi-mastani-hai-meri-mehbooba.mp3"
